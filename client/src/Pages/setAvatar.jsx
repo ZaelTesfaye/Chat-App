@@ -1,21 +1,20 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import "react-toastify/dist/ReactToastify.css";
 import {toast} from 'react-toastify';
 import toastOptions from "../config/toastOptions";
 import axios from "axios";
-import {Buffer} from 'buffer';
 import styled from "styled-components";
 import {authenticationRoute, setAvatarRoute} from "../config/APIRoutes";
-import Loader from "../assets/loader.gif";
+import loader from "../assets/loader.gif";
 import {useNavigate} from "react-router-dom";
-import {AuthContext} from "../context/authContext";
+
 
 function SetAvatar() {
     const [avatars, setAvatars] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedAvatar, setSelectedAvatar] = useState(undefined);
     const navigate = useNavigate();
-    const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
+
 
     const api = "https://api.multiavatar.com/45678945";
 
@@ -46,9 +45,9 @@ function SetAvatar() {
         const data = [];
         const fetchData = async () => {
             for (let i = 0; i < 4; ++i) {
-                const image = await axios.get(`${api}/${Math.round(Math.random() * 1000)}?apikey=N6SmBXP4CYz8MG`);
-                const buffer = Buffer.from(image.data);
-                data.push(buffer.toString("base64"));
+                const {data} = await axios.get(`${api}/${Math.round(Math.random() * 1000)}?apikey=N6SmBXP4CYz8MG`);
+
+                data.push(data.toString("base64"));
             }
             setAvatars(data);
             setIsLoading(false);
@@ -60,7 +59,7 @@ function SetAvatar() {
         return (
             <StyledContainer>
                 <div className="loader">
-                    <img src={Loader} alt="Loading"/>
+                    <img src={loader} alt="Loading"/>
                 </div>
             </StyledContainer>
         )
