@@ -6,6 +6,7 @@ const passport = require("passport")
 const {maxAge} = require("express-session/session/cookie");
 const crypto = require('crypto');
 const {api, client} = require('../config/links')
+const cookieOptions = require("../config/cookieOption");
 
 module.exports.register = async (req, res, next) => {
     try {
@@ -45,10 +46,7 @@ module.exports.register = async (req, res, next) => {
 
         const token = jwt.sign(user,secret);
 
-        res.cookie("auth-token", token, {
-            httpOnly: true,
-            maxAge: 60 * 60 * 1000,
-        })
+        res.cookie("auth-token", token, cookieOptions)
 
         return res.json({
             message: "Registration successful",
@@ -82,10 +80,7 @@ module.exports.login = async (req, res, next) => {
 
                 const token = jwt.sign(tokenInfo,secret);
 
-                res.cookie("auth-token", token, {
-                    httpOnly: true,
-                    maxAge: 60 * 60 * 1000,
-                })
+                res.cookie("auth-token", token, cookieOptions)
                 const userData = {
                     _id: user._id,
                     username: user.username,
@@ -137,7 +132,7 @@ module.exports.logOut = (req, res, next) => {
     try {
         if (!req.params.id) return res.json({ msg: "User id is required " });
         onlineUsers.delete(req.params.id);
-        return res.status(200).clearCookie("auth-token", {httpOnly: true} ).send();
+        return res.status(200).clearCookie("auth-token", cookieOptions ).send();
     } catch (ex) {
         next(ex);
     }
@@ -174,7 +169,6 @@ module.exports.authenticate = async(req,res,next) => {
         }
         jwt.verify(token, secret, async (err, user) => {
             if (err) return res.json({status: false, message: err.message});
-            console.log("Fake token")
             return res.json({status: true, user});
         });
     }
@@ -204,7 +198,7 @@ module.exports.googleLogin = async (req,res,next)=>  {
         const secret = process.env.JWT_SECRET;
         const token = jwt.sign(tokenInfo, secret);
 
-        res.cookie("auth-token", token, {httpOnly:true, maxAge: 60 * 60 * 1000}).redirect(client)
+        res.cookie("auth-token", token, cookieOptions).redirect(client)
     }
     else {
         const newUser = await User.create({
@@ -217,7 +211,7 @@ module.exports.googleLogin = async (req,res,next)=>  {
         }
         const secret = process.env.JWT_SECRET
         const token = jwt.sign(tokenInfo, secret)
-        res.cookie("auth-token", token, {httpOnly:true, maxAge: 60 * 60 * 1000}).redirect(`${client}/setusername`);
+        res.cookie("auth-token", token, cookieOptions).redirect(`${client}/setusername`);
     }
 }
 
