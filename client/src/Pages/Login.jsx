@@ -21,6 +21,7 @@ function Login() {
                 const {data} = await axios.get(authenticationRoute, {withCredentials: true})
                 if (data.status) {
                     setIsAuthenticated(true);
+                    console.log("Navigating to chat page")
                     navigate("/")
                 }
             }
