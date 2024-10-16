@@ -22,11 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
     .catch((error) => console.error(error.message))
 
 const corsOptions = {
-    origin: [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "https://accounts.google.com"
-    ],
+    origin: [process.env.ORIGIN],
     credentials: true,
 };
 
