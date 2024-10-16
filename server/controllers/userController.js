@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport")
 const {maxAge} = require("express-session/session/cookie");
 const crypto = require('crypto');
+const {api, client} = require('../config/links')
 
 module.exports.register = async (req, res, next) => {
     try {
@@ -166,12 +167,14 @@ module.exports.authenticate = async(req,res,next) => {
     try {
         const token = req.cookies['auth-token'];
         const secret = process.env.JWT_SECRET;
+        console.log("Chat request token = " +token)
 
         if (!token) {
             return res.json({status: false, message: "User not authenticated"});
         }
         jwt.verify(token, secret, async (err, user) => {
             if (err) return res.json({status: false, message: err.message});
+            console.log("Fake token")
             return res.json({status: true, user});
         });
     }
@@ -184,8 +187,8 @@ module.exports.authenticate = async(req,res,next) => {
 module.exports.googleAuthenticate = passport.authenticate('google', { scope: ['profile', 'email', 'openid'] });
 
 module.exports.googleCallback = passport.authenticate('google', {
-    successRedirect: 'http://localhost:5000/api/auth/googleLogin',
-    failureRedirect: 'http://localhost:3000/login'
+    successRedirect: `${api}/api/auth/googleLogin`,
+    failureRedirect: `${client}/login`
 
     })
 
@@ -201,7 +204,7 @@ module.exports.googleLogin = async (req,res,next)=>  {
         const secret = process.env.JWT_SECRET;
         const token = jwt.sign(tokenInfo, secret);
 
-        res.cookie("auth-token", token, {httpOnly:true, maxAge: 60 * 60 * 1000}).redirect("http://localhost:3000/")
+        res.cookie("auth-token", token, {httpOnly:true, maxAge: 60 * 60 * 1000}).redirect(client)
     }
     else {
         const newUser = await User.create({
@@ -214,7 +217,7 @@ module.exports.googleLogin = async (req,res,next)=>  {
         }
         const secret = process.env.JWT_SECRET
         const token = jwt.sign(tokenInfo, secret)
-        res.cookie("auth-token", token, {httpOnly:true, maxAge: 60 * 60 * 1000}).redirect("http://localhost:3000/setusername");
+        res.cookie("auth-token", token, {httpOnly:true, maxAge: 60 * 60 * 1000}).redirect(`${client}/setusername`);
     }
 }
 
