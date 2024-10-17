@@ -33,12 +33,9 @@ function Chat() {
     useEffect(() => {
         const authenticate = async () => {
             if (isAuthenticated) {
-                console.log("User is authenticated")
                 await setUser();
             } else {
-                console.log("sending auth request ")
                 const {data} = await axios.get(authenticationRoute, {withCredentials: true});
-                console.log("Chat auth status = " + data.status);
                 if (data.status) {
                     await setUser();
                     setIsAuthenticated(true);

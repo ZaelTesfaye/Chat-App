@@ -162,7 +162,6 @@ module.exports.authenticate = async(req,res,next) => {
     try {
         const token = req.cookies['auth-token'];
         const secret = process.env.JWT_SECRET;
-        console.log("Chat request token = " +token)
 
         if (!token) {
             return res.json({status: false, message: "User not authenticated"});

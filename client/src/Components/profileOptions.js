@@ -45,8 +45,8 @@ const Container = styled.div`
         background-color: #7f6ccb;
         position: absolute;
         top: 8rem;
-        left: 8rem;
-        width: 22rem;
+        left: 7rem;
+        width: 18rem;
 
         a {
             padding-top: 8px;
