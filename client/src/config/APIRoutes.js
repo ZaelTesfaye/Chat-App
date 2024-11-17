@@ -1,4 +1,5 @@
-export const host = "https://chat-app-aeqj.onrender.com";
+export const host = process.env.REACT_APP_HOST;
+console.log(host);
 export const registerRoute = `${host}/api/auth/register`;
 export const loginRoute = `${host}/api/auth/login`
 export const setAvatarRoute = `${host}/api/auth/setAvatar`
