@@ -26,7 +26,7 @@ function Contacts({contacts, currentUser, changeChat}) {
             {currentUserImage && currentUserName && (
                 <Container>
                     <div className="brand">
-                        <div className="logout"><ProfileOptions/></div>
+                        <div className="menu"><ProfileOptions/></div>
                         <div className="brands">
                             <img src={logo} alt="Brand"/>
                             <h3>Snappy</h3>
@@ -87,8 +87,9 @@ const Container = styled.div`
             flex-direction: row;
             align-items: center;
         }
-        .logout {
-            margin-left: 1.5rem;
+        .menu {
+            margin-left: 1rem;
+
         }
     }
     .contacts {

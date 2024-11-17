@@ -5,7 +5,10 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport")
 const {maxAge} = require("express-session/session/cookie");
 const crypto = require('crypto');
-const {api, client} = require('../config/links')
+
+const api =process.env.API;
+
+const client =process.env.CLIENT;
 const cookieOptions = require("../config/cookieOption");
 
 module.exports.register = async (req, res, next) => {

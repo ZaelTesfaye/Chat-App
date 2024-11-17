@@ -30,6 +30,9 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
+    width: 100%;
+    
+    
 
     .menu {
         cursor: pointer;
@@ -45,8 +48,10 @@ const Container = styled.div`
         background-color: #7f6ccb;
         position: absolute;
         top: 8rem;
-        left: 7rem;
-        width: 18rem;
+        left: 8rem;
+        grid-column: 1 / -1;
+        
+        width: 19%;
 
         a {
             padding-top: 8px;

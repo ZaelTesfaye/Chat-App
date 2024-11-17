@@ -42,14 +42,13 @@ function SetAvatar() {
     }
 
     useEffect(() => {
-        const data = [];
+        const images = [];
         const fetchData = async () => {
             for (let i = 0; i < 4; ++i) {
-                const {image} = await axios.get(`${api}/${Math.round(Math.random() * 1000)}?apikey=N6SmBXP4CYz8MG`);
-
-                data.push(image.toString("base64"));
+                const {data} = await axios.get(`${api}/${Math.round(Math.random() * 1000)}?apikey=N6SmBXP4CYz8MG`);
+                images.push(btoa(data));
             }
-            setAvatars(data);
+            setAvatars(images);
             setIsLoading(false);
         };
         fetchData();
